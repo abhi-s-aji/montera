@@ -93,7 +93,8 @@ class _SecuritySettingsPageState extends ConsumerState<SecuritySettingsPage> {
               'Offline-first vault protection & Privacy',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else ...[
@@ -111,7 +112,8 @@ class _SecuritySettingsPageState extends ConsumerState<SecuritySettingsPage> {
               'Offline-first vault protection, local PIN/Biometric authentication, and Privacy Mode',
               style: TextStyle(
                 fontSize: 14,
-                color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ],

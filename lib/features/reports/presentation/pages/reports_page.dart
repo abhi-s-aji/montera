@@ -59,8 +59,8 @@ class ReportsPage extends ConsumerWidget {
               'Generate reports offline',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else
@@ -146,8 +146,8 @@ class ReportsPage extends ConsumerWidget {
                 Expanded(
                   child: DropdownButtonFormField<ReportType>(
                     initialValue: selectedType,
-                    decoration:
-                        const InputDecoration(labelText: 'Report Statement Type'),
+                    decoration: const InputDecoration(
+                        labelText: 'Report Statement Type'),
                     items: ReportType.values
                         .map((t) => DropdownMenuItem(
                               value: t,
@@ -156,7 +156,8 @@ class ReportsPage extends ConsumerWidget {
                         .toList(),
                     onChanged: (val) {
                       if (val != null) {
-                        ref.read(selectedReportTypeProvider.notifier).state = val;
+                        ref.read(selectedReportTypeProvider.notifier).state =
+                            val;
                       }
                     },
                   ),
@@ -165,8 +166,8 @@ class ReportsPage extends ConsumerWidget {
                 Expanded(
                   child: DropdownButtonFormField<ExportFormat>(
                     initialValue: selectedFormat,
-                    decoration:
-                        const InputDecoration(labelText: 'Export Output Format'),
+                    decoration: const InputDecoration(
+                        labelText: 'Export Output Format'),
                     items: ExportFormat.values
                         .map((f) => DropdownMenuItem(
                               value: f,

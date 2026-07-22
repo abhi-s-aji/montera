@@ -136,8 +136,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                 fontSize: 13,
                 color: _isSelectionMode
                     ? theme.colorScheme.primary
-                    : theme.textTheme.bodyMedium?.color
-                        ?.withValues(alpha: 0.6),
+                    : theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                 fontWeight:
                     _isSelectionMode ? FontWeight.bold : FontWeight.normal,
               ),

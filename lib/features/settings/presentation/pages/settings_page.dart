@@ -107,8 +107,8 @@ class SettingsPage extends ConsumerWidget {
               'Tailor Monetra to your aesthetic preferences',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 12),
@@ -158,7 +158,8 @@ class SettingsPage extends ConsumerWidget {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text('Settings reset to factory defaults')),
+                            content:
+                                Text('Settings reset to factory defaults')),
                       );
                     }
                   },
@@ -270,8 +271,8 @@ class SettingsPage extends ConsumerWidget {
                         child: ChoiceChip(
                           label: const Center(child: Text('Dark')),
                           selected: settings.themeMode == AppThemeMode.dark,
-                          onSelected: (_) =>
-                              settingsNotifier.updateThemeMode(AppThemeMode.dark),
+                          onSelected: (_) => settingsNotifier
+                              .updateThemeMode(AppThemeMode.dark),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -279,8 +280,8 @@ class SettingsPage extends ConsumerWidget {
                         child: ChoiceChip(
                           label: const Center(child: Text('OLED')),
                           selected: settings.themeMode == AppThemeMode.oled,
-                          onSelected: (_) =>
-                              settingsNotifier.updateThemeMode(AppThemeMode.oled),
+                          onSelected: (_) => settingsNotifier
+                              .updateThemeMode(AppThemeMode.oled),
                         ),
                       ),
                       const SizedBox(width: 8),

@@ -36,8 +36,8 @@ class PerformancePage extends ConsumerWidget {
               'Local diagnostics & in-memory query cache',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 12),
@@ -154,21 +154,21 @@ class PerformancePage extends ConsumerWidget {
                     alignment: WrapAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                        child: _buildStatTile(
-                            'Total Entries', '${cacheStats.totalEntries}')),
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          child: _buildStatTile(
+                              'Total Entries', '${cacheStats.totalEntries}')),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                        child: _buildStatTile(
-                            'Cache Hits', '${cacheStats.hitCount}')),
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          child: _buildStatTile(
+                              'Cache Hits', '${cacheStats.hitCount}')),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                        child: _buildStatTile(
-                            'Cache Misses', '${cacheStats.missCount}')),
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          child: _buildStatTile(
+                              'Cache Misses', '${cacheStats.missCount}')),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                        child: _buildStatTile('Hit Ratio',
-                            '${(cacheStats.hitRatio * 100).toStringAsFixed(1)}%')),
+                          width: MediaQuery.of(context).size.width / 2 - 40,
+                          child: _buildStatTile('Hit Ratio',
+                              '${(cacheStats.hitRatio * 100).toStringAsFixed(1)}%')),
                     ],
                   )
                 else

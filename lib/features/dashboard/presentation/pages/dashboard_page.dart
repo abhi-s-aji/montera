@@ -361,8 +361,8 @@ class DashboardPage extends ConsumerWidget {
               'Offline. Private. Yours.',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 12),
@@ -372,8 +372,8 @@ class DashboardPage extends ConsumerWidget {
               children: [
                 OutlinedButton.icon(
                   onPressed: () => CustomizeDashboardDialog.show(context),
-                  icon: const Icon(Icons.dashboard_customize_outlined,
-                      size: 16),
+                  icon:
+                      const Icon(Icons.dashboard_customize_outlined, size: 16),
                   label: const Text('Customize'),
                 ),
                 ElevatedButton.icon(

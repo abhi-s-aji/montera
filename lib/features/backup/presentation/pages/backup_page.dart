@@ -184,8 +184,8 @@ class _BackupPageState extends ConsumerState<BackupPage> {
               'Offline-first containerized backup studio',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
             const SizedBox(height: 12),

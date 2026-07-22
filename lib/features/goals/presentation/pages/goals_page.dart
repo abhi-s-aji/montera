@@ -142,8 +142,8 @@ class GoalsPage extends ConsumerWidget {
               'Milestone tracking & reserves',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else
@@ -295,7 +295,8 @@ class GoalsPage extends ConsumerWidget {
                                                         horizontal: 8,
                                                         vertical: 2),
                                                 decoration: BoxDecoration(
-                                                  color: MonetraColors.incomeGreen
+                                                  color: MonetraColors
+                                                      .incomeGreen
                                                       .withValues(alpha: 0.2),
                                                   borderRadius:
                                                       BorderRadius.circular(10),

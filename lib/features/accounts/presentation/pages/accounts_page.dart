@@ -210,8 +210,9 @@ class AccountsPage extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    onChanged: (val) =>
-                        ref.read(accountSearchQueryProvider.notifier).state = val,
+                    onChanged: (val) => ref
+                        .read(accountSearchQueryProvider.notifier)
+                        .state = val,
                     decoration: InputDecoration(
                       hintText: 'Search accounts by name or institution...',
                       prefixIcon: const Icon(Icons.search_rounded, size: 20),
@@ -230,8 +231,9 @@ class AccountsPage extends ConsumerWidget {
                 FilterChip(
                   label: const Text('Show Archived'),
                   selected: showArchived,
-                  onSelected: (val) =>
-                      ref.read(accountShowArchivedProvider.notifier).state = val,
+                  onSelected: (val) => ref
+                      .read(accountShowArchivedProvider.notifier)
+                      .state = val,
                 ),
               ],
             ),
@@ -247,8 +249,7 @@ class AccountsPage extends ConsumerWidget {
                     ),
                   )
                 : GridView.builder(
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: isMobile ? 1 : 2,
                       childAspectRatio: isMobile ? 2.5 : 2.2,
                       crossAxisSpacing: 16,

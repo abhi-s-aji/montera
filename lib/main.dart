@@ -120,12 +120,12 @@ class MonetraWorkspaceShell extends StatelessWidget {
   }
 
   Widget _buildNavColumn(
-      BuildContext context,
-      ThemeData theme,
-      int selectedIndex,
-      List<Map<String, dynamic>> navItems, {
-      bool isDrawer = false,
-    }) {
+    BuildContext context,
+    ThemeData theme,
+    int selectedIndex,
+    List<Map<String, dynamic>> navItems, {
+    bool isDrawer = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -236,14 +236,12 @@ class MonetraWorkspaceShell extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               color: MonetraColors.incomeGreen.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                  color:
-                      MonetraColors.incomeGreen.withValues(alpha: 0.2)),
+                  color: MonetraColors.incomeGreen.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [

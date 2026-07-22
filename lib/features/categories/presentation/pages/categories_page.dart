@@ -141,8 +141,8 @@ class CategoriesPage extends ConsumerWidget {
               'Hierarchical categories',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else

@@ -34,8 +34,7 @@ class PluginManagerPage extends ConsumerWidget {
             'Offline sandboxed extension plugins, manifest validation, and granted permissions',
             style: TextStyle(
               fontSize: isMobile ? 13 : 14,
-              color: theme.textTheme.bodyMedium?.color
-                  ?.withValues(alpha: 0.6),
+              color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
             ),
           ),
           const SizedBox(height: 24),
@@ -71,8 +70,7 @@ class PluginManagerPage extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Wrap(
-                                  crossAxisAlignment:
-                                      WrapCrossAlignment.center,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
                                   spacing: 6,
                                   runSpacing: 4,
                                   children: [
@@ -84,8 +82,7 @@ class PluginManagerPage extends ConsumerWidget {
                                     ),
                                     Chip(
                                       label: Text('v${p.version}',
-                                          style:
-                                              const TextStyle(fontSize: 10)),
+                                          style: const TextStyle(fontSize: 10)),
                                       visualDensity: VisualDensity.compact,
                                       padding: EdgeInsets.zero,
                                     ),
@@ -138,8 +135,8 @@ class PluginManagerPage extends ConsumerWidget {
                         const SizedBox(height: 6),
                         p.permissions.isEmpty
                             ? const Text('None (Sandboxed UI Pack)',
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey))
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey))
                             : Wrap(
                                 spacing: 6,
                                 runSpacing: 4,
@@ -152,8 +149,7 @@ class PluginManagerPage extends ConsumerWidget {
                                           label: Text(perm.name,
                                               style: const TextStyle(
                                                   fontSize: 10)),
-                                          visualDensity:
-                                              VisualDensity.compact,
+                                          visualDensity: VisualDensity.compact,
                                         ))
                                     .toList(),
                               ),

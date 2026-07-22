@@ -127,8 +127,8 @@ class BudgetsPage extends ConsumerWidget {
               'Category spending caps and pace',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else
@@ -199,8 +199,9 @@ class BudgetsPage extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    onChanged: (val) =>
-                        ref.read(budgetSearchQueryProvider.notifier).state = val,
+                    onChanged: (val) => ref
+                        .read(budgetSearchQueryProvider.notifier)
+                        .state = val,
                     decoration: InputDecoration(
                       hintText: 'Search budgets by name...',
                       prefixIcon: const Icon(Icons.search_rounded, size: 20),

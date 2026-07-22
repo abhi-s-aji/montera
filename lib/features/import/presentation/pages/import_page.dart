@@ -123,8 +123,8 @@ class _ImportPageState extends ConsumerState<ImportPage> {
               'Offline-first wizard for financial records',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color
-                    ?.withValues(alpha: 0.6),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ] else

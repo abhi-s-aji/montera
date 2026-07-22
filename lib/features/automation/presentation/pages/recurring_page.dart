@@ -58,8 +58,8 @@ class _RecurringPageState extends ConsumerState<RecurringPage>
                 'Deterministic scheduled transactions',
                 style: TextStyle(
                   fontSize: 13,
-                  color: theme.textTheme.bodyMedium?.color
-                      ?.withValues(alpha: 0.6),
+                  color:
+                      theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                 ),
               ),
             ] else
