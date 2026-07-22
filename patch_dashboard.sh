@@ -1,0 +1,3 @@
+sed -i 's/padding: const EdgeInsets.all(20.0)/padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL)/g' lib/features/dashboard/presentation/pages/dashboard_page.dart
+sed -i 's/padding: const EdgeInsets.all(16.0)/padding: const EdgeInsets.all(MonetraDesignSystem.spaceL)/g' lib/features/dashboard/presentation/pages/dashboard_page.dart
+sed -i "s/import 'package:monetra\/core\/widgets\/monetra_chart.dart';/import 'package:monetra\/core\/widgets\/monetra_chart.dart';\nimport 'package:monetra\/core\/theme\/monetra_design_system.dart';/g" lib/features/dashboard/presentation/pages/dashboard_page.dart
