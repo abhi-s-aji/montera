@@ -72,14 +72,15 @@ class MonetraWorkspaceShell extends StatelessWidget {
     if (location.startsWith('/goals')) return 5;
     if (location.startsWith('/analytics')) return 6;
     if (location.startsWith('/reports')) return 7;
-    if (location.startsWith('/settings')) return 8;
-    if (location.startsWith('/backup')) return 9;
-    if (location.startsWith('/import')) return 10;
-    if (location.startsWith('/security')) return 11;
-    if (location.startsWith('/automation')) return 12;
-    if (location.startsWith('/search')) return 13;
-    if (location.startsWith('/performance')) return 14;
-    if (location.startsWith('/plugins')) return 15;
+    if (location.startsWith('/settings') ||
+        location.startsWith('/backup') ||
+        location.startsWith('/import') ||
+        location.startsWith('/security') ||
+        location.startsWith('/automation') ||
+        location.startsWith('/performance') ||
+        location.startsWith('/plugins')) {
+      return 8;
+    }
     return 0;
   }
 
@@ -111,27 +112,6 @@ class MonetraWorkspaceShell extends StatelessWidget {
         break;
       case 8:
         context.go('/settings');
-        break;
-      case 9:
-        context.go('/backup');
-        break;
-      case 10:
-        context.go('/import');
-        break;
-      case 11:
-        context.go('/security');
-        break;
-      case 12:
-        context.go('/automation');
-        break;
-      case 13:
-        context.go('/search');
-        break;
-      case 14:
-        context.go('/performance');
-        break;
-      case 15:
-        context.go('/plugins');
         break;
     }
   }
@@ -271,14 +251,15 @@ class MonetraWorkspaceShell extends StatelessWidget {
                 ),
               );
 
-              if (index == 0) {
+              if (index == 1) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.only(left: 12, top: 8, bottom: 6),
                       child: Text(
-                        'WORKSPACE',
+                        'MONEY',
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
                           fontWeight: FontWeight.bold,
@@ -291,15 +272,15 @@ class MonetraWorkspaceShell extends StatelessWidget {
                 );
               }
 
-              if (index == 8) {
+              if (index == 6) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.only(left: 12, top: 8, bottom: 6),
                       child: Text(
-                        'TOOLS & UTILITIES',
+                        'INSIGHTS',
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
                           fontWeight: FontWeight.bold,
@@ -390,19 +371,30 @@ class MonetraWorkspaceShell extends StatelessWidget {
       {'icon': Icons.analytics_rounded, 'label': 'Analytics'},
       {'icon': Icons.description_rounded, 'label': 'Reports'},
       {'icon': Icons.settings_rounded, 'label': 'Settings'},
-      {'icon': Icons.backup_rounded, 'label': 'Backup Studio'},
-      {'icon': Icons.upload_file_rounded, 'label': 'Import Studio'},
-      {'icon': Icons.security_rounded, 'label': 'Security Studio'},
-      {'icon': Icons.autorenew_rounded, 'label': 'Automation Studio'},
-      {'icon': Icons.search_rounded, 'label': 'Global Search'},
-      {'icon': Icons.speed_rounded, 'label': 'Performance Studio'},
-      {'icon': Icons.extension_rounded, 'label': 'Plugin Studio'},
     ];
 
     Widget mainWidget;
 
     if (isMobile) {
-      final currentTitle = navItems[selectedIndex]['label'] as String;
+      final String currentTitle;
+      final String path = GoRouterState.of(context).uri.path;
+      if (path.startsWith('/backup')) {
+        currentTitle = 'Backup Studio';
+      } else if (path.startsWith('/import')) {
+        currentTitle = 'Import Studio';
+      } else if (path.startsWith('/security')) {
+        currentTitle = 'Security Studio';
+      } else if (path.startsWith('/automation')) {
+        currentTitle = 'Automation Studio';
+      } else if (path.startsWith('/performance')) {
+        currentTitle = 'Performance Studio';
+      } else if (path.startsWith('/plugins')) {
+        currentTitle = 'Plugin Studio';
+      } else {
+        currentTitle = selectedIndex >= 0 && selectedIndex < navItems.length
+            ? navItems[selectedIndex]['label'] as String
+            : 'Monetra';
+      }
 
       mainWidget = Scaffold(
         appBar: AppBar(
