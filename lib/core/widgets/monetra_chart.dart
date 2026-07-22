@@ -18,6 +18,8 @@ class MonetraChart extends StatelessWidget {
       return const Center(child: Text('No chart data available'));
     }
 
+    final surfaceColor = Theme.of(context).canvasColor;
+
     return SizedBox(
       height: 160,
       width: double.infinity,
@@ -25,6 +27,7 @@ class MonetraChart extends StatelessWidget {
         painter: _ChartPainter(
           dataPoints: dataPoints,
           lineColor: lineColor,
+          surfaceColor: surfaceColor,
         ),
       ),
     );
@@ -34,10 +37,12 @@ class MonetraChart extends StatelessWidget {
 class _ChartPainter extends CustomPainter {
   final List<double> dataPoints;
   final Color lineColor;
+  final Color surfaceColor;
 
   _ChartPainter({
     required this.dataPoints,
     required this.lineColor,
+    required this.surfaceColor,
   });
 
   @override
@@ -52,7 +57,8 @@ class _ChartPainter extends CustomPainter {
     for (int i = 0; i < dataPoints.length; i++) {
       final x = i * stepX;
       final normalizedY = (dataPoints[i] - minVal) / range;
-      final y = size.height - (normalizedY * (size.height - 20) + 10);
+      // Add extra margin top and bottom
+      final y = size.height - (normalizedY * (size.height - 30) + 15);
       points.add(Offset(x, y));
     }
 
@@ -83,8 +89,8 @@ class _ChartPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        lineColor.withOpacity(0.25),
-        lineColor.withOpacity(0.0),
+        lineColor.withValues(alpha: 0.25),
+        lineColor.withValues(alpha: 0.0),
       ],
     );
 
@@ -95,6 +101,18 @@ class _ChartPainter extends CustomPainter {
 
     canvas.drawPath(fillPath, fillPaint);
     canvas.drawPath(path, linePaint);
+
+    // Draw end-point indicator for polish
+    final lastPoint = points.last;
+    final dotBgPaint = Paint()
+      ..color = surfaceColor
+      ..style = PaintingStyle.fill;
+    final dotPaint = Paint()
+      ..color = lineColor
+      ..style = PaintingStyle.fill;
+
+    canvas.drawCircle(lastPoint, 6.0, dotBgPaint);
+    canvas.drawCircle(lastPoint, 4.0, dotPaint);
   }
 
   @override

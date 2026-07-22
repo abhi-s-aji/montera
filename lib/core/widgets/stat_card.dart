@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'monetra_card.dart';
+import '../theme/monetra_design_system.dart';
 
 class StatCard extends StatelessWidget {
   final String title;
@@ -31,48 +32,45 @@ class StatCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(MonetraDesignSystem.spaceS),
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.12),
-                  borderRadius: BorderRadius.circular(10.0),
+                  color: iconColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(MonetraDesignSystem.radiusM),
                 ),
                 child: Icon(icon, color: iconColor, size: 20),
               ),
               if (badge != null) badge!,
             ],
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: MonetraDesignSystem.spaceL),
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 13,
+            style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+              color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: MonetraDesignSystem.spaceXS),
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 22,
+            style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w700,
               color: theme.textTheme.bodyLarge?.color,
               letterSpacing: -0.5,
             ),
           ),
           if (subtitle != null) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: MonetraDesignSystem.spaceXS),
             Text(
               subtitle!,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
               ),
             ),
           ],

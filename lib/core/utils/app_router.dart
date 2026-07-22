@@ -35,88 +35,42 @@ class AppRouter {
           return MonetraWorkspaceShell(child: child);
         },
         routes: [
-          GoRoute(
-            path: '/dashboard',
-            name: 'dashboard',
-            builder: (context, state) => const DashboardPage(),
-          ),
-          GoRoute(
-            path: '/transactions',
-            name: 'transactions',
-            builder: (context, state) => const TransactionsPage(),
-          ),
-          GoRoute(
-            path: '/accounts',
-            name: 'accounts',
-            builder: (context, state) => const AccountsPage(),
-          ),
-          GoRoute(
-            path: '/budgets',
-            name: 'budgets',
-            builder: (context, state) => const BudgetsPage(),
-          ),
-          GoRoute(
-            path: '/categories',
-            name: 'categories',
-            builder: (context, state) => const CategoriesPage(),
-          ),
-          GoRoute(
-            path: '/goals',
-            name: 'goals',
-            builder: (context, state) => const GoalsPage(),
-          ),
-          GoRoute(
-            path: '/analytics',
-            name: 'analytics',
-            builder: (context, state) => const AnalyticsPage(),
-          ),
-          GoRoute(
-            path: '/reports',
-            name: 'reports',
-            builder: (context, state) => const ReportsPage(),
-          ),
-          GoRoute(
-            path: '/settings',
-            name: 'settings',
-            builder: (context, state) => const SettingsPage(),
-          ),
-          GoRoute(
-            path: '/backup',
-            name: 'backup',
-            builder: (context, state) => const BackupPage(),
-          ),
-          GoRoute(
-            path: '/import',
-            name: 'import',
-            builder: (context, state) => const ImportPage(),
-          ),
-          GoRoute(
-            path: '/security',
-            name: 'security',
-            builder: (context, state) => const SecuritySettingsPage(),
-          ),
-          GoRoute(
-            path: '/automation',
-            name: 'automation',
-            builder: (context, state) => const RecurringPage(),
-          ),
-          GoRoute(
-            path: '/search',
-            name: 'search',
-            builder: (context, state) => const SearchPage(),
-          ),
-          GoRoute(
-            path: '/performance',
-            name: 'performance',
-            builder: (context, state) => const PerformancePage(),
-          ),
-          GoRoute(
-            path: '/plugins',
-            name: 'plugins',
-            builder: (context, state) => const PluginManagerPage(),
-          ),
+          _buildFadeRoute('/dashboard', 'dashboard', const DashboardPage()),
+          _buildFadeRoute('/transactions', 'transactions', const TransactionsPage()),
+          _buildFadeRoute('/accounts', 'accounts', const AccountsPage()),
+          _buildFadeRoute('/budgets', 'budgets', const BudgetsPage()),
+          _buildFadeRoute('/categories', 'categories', const CategoriesPage()),
+          _buildFadeRoute('/goals', 'goals', const GoalsPage()),
+          _buildFadeRoute('/analytics', 'analytics', const AnalyticsPage()),
+          _buildFadeRoute('/reports', 'reports', const ReportsPage()),
+          _buildFadeRoute('/settings', 'settings', const SettingsPage()),
+          _buildFadeRoute('/backup', 'backup', const BackupPage()),
+          _buildFadeRoute('/import', 'import', const ImportPage()),
+          _buildFadeRoute('/security', 'security', const SecuritySettingsPage()),
+          _buildFadeRoute('/automation', 'automation', const RecurringPage()),
+          _buildFadeRoute('/search', 'search', const SearchPage()),
+          _buildFadeRoute('/performance', 'performance', const PerformancePage()),
+          _buildFadeRoute('/plugins', 'plugins', const PluginManagerPage()),
         ],
       ),
     ],
   );
+
+  static GoRoute _buildFadeRoute(String path, String name, Widget child) {
+    return GoRoute(
+      path: path,
+      name: name,
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: child,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+    );
+  }
 }

@@ -8,6 +8,7 @@ import 'package:monetra/core/theme/monetra_colors.dart';
 import 'package:monetra/core/utils/currency_formatter.dart';
 import 'package:monetra/core/widgets/monetra_card.dart';
 import 'package:monetra/core/widgets/monetra_chart.dart';
+import 'package:monetra/core/theme/monetra_design_system.dart';
 import 'package:monetra/core/widgets/stat_card.dart';
 import 'package:monetra/features/accounts/presentation/widgets/account_editor_dialog.dart';
 import 'package:monetra/features/categories/presentation/widgets/category_editor_dialog.dart';
@@ -69,7 +70,7 @@ class DashboardPage extends ConsumerWidget {
 
       case DashboardWidgetType.cashFlowChart:
         return MonetraCard(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,10 +82,9 @@ class DashboardPage extends ConsumerWidget {
                     children: [
                       Text(
                         'Net Worth Trajectory',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: theme.textTheme.bodyLarge?.color),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -120,7 +120,7 @@ class DashboardPage extends ConsumerWidget {
 
       case DashboardWidgetType.quickActions:
         return MonetraCard(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -159,15 +159,13 @@ class DashboardPage extends ConsumerWidget {
 
       case DashboardWidgetType.recentTransactions:
         return MonetraCard(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Recent Transactions',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: theme.textTheme.bodyLarge?.color)),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600)),
               const SizedBox(height: 16),
               transactionsAsync.when(
                 data: (transactions) {
@@ -242,20 +240,19 @@ class DashboardPage extends ConsumerWidget {
 
       case DashboardWidgetType.accountSummary:
         return MonetraCard(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Accounts Overview',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: theme.textTheme.bodyLarge?.color)),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600)),
               const SizedBox(height: 12),
               accountsAsync.when(
                 data: (accounts) {
-                  if (accounts.isEmpty)
+                  if (accounts.isEmpty) {
                     return const Text('No active accounts.');
+                  }
                   return Column(
                     children: accounts.take(4).map((acc) {
                       return ListTile(
@@ -284,15 +281,13 @@ class DashboardPage extends ConsumerWidget {
 
       case DashboardWidgetType.topCategories:
         return MonetraCard(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Top Spending Categories',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: theme.textTheme.bodyLarge?.color)),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600)),
               const SizedBox(height: 12),
               if (topCategories.isEmpty)
                 const Text('No category expenses recorded yet.')
@@ -432,33 +427,75 @@ class DashboardPage extends ConsumerWidget {
           if (statCards.isNotEmpty)
             if (isMobile)
               Column(
-                children: statCards.map((w) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: _buildWidgetCard(context, ref, w),
-                  );
-                }).toList(),
-              )
-            else
-              Row(
-                children: statCards.map((w) {
-                  return Expanded(
+                children: List.generate(statCards.length, (index) {
+                  final w = statCards[index];
+                  return _EntranceFader(
+                    index: index,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
+                      padding: const EdgeInsets.only(bottom: 12.0),
                       child: _buildWidgetCard(context, ref, w),
                     ),
                   );
-                }).toList(),
+                }),
+              )
+            else
+              Row(
+                children: List.generate(statCards.length, (index) {
+                  final w = statCards[index];
+                  return Expanded(
+                    child: _EntranceFader(
+                      index: index,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: _buildWidgetCard(context, ref, w),
+                      ),
+                    ),
+                  );
+                }),
               ),
           const SizedBox(height: 24),
-          ...blockWidgets.map((w) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: _buildWidgetCard(context, ref, w),
+          ...List.generate(blockWidgets.length, (index) {
+            final w = blockWidgets[index];
+            final overallIndex = statCards.length + index;
+            return _EntranceFader(
+              index: overallIndex,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: _buildWidgetCard(context, ref, w),
+              ),
             );
           }),
         ],
       ),
+    );
+  }
+}
+
+class _EntranceFader extends StatelessWidget {
+  final Widget child;
+  final int index;
+  const _EntranceFader({required this.child, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    // Respect system reduced motion
+    if (MediaQuery.of(context).accessibleNavigation) {
+      return child;
+    }
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 200 + (index * 50).clamp(0, 300)),
+      curve: MonetraDesignSystem.curveDecelerate,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, 15 * (1.0 - value)),
+            child: child,
+          ),
+        );
+      },
+      child: child,
     );
   }
 }

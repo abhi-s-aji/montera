@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:monetra/core/widgets/monetra_card.dart';
+import 'package:monetra/core/widgets/monetra_empty_state.dart';
+import 'package:monetra/core/theme/monetra_design_system.dart';
 import 'package:monetra/features/search/presentation/providers/search_providers.dart';
 import 'package:monetra/features/search/presentation/widgets/command_palette_overlay.dart';
 
@@ -105,7 +107,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
           // Search Bar Input Card
           MonetraCard(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(MonetraDesignSystem.spaceL),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -146,29 +148,15 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
           // Search Results Section
           Text('Search Results (${results.length})',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: theme.textTheme.bodyLarge?.color)),
+              style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
 
           results.isEmpty
-              ? MonetraCard(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Icon(Icons.search_off_rounded,
-                            size: 48,
-                            color: Colors.grey.withValues(alpha: 0.5)),
-                        const SizedBox(height: 12),
-                        Text('No matching entity or command records found.',
-                            style: TextStyle(
-                                color: theme.textTheme.bodyMedium?.color
-                                    ?.withValues(alpha: 0.6))),
-                      ],
-                    ),
-                  ),
+              ? const MonetraEmptyState(
+                  icon: Icons.search_off_rounded,
+                  title: 'No search results found',
+                  description: 'No matching transaction, account, category, budget, or command records found for your query.',
                 )
               : ListView.builder(
                   shrinkWrap: true,
@@ -179,7 +167,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: MonetraCard(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(MonetraDesignSystem.spaceM),
                         child: ListTile(
                           leading: CircleAvatar(
                             backgroundColor: theme.colorScheme.primary

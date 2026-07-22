@@ -1,12 +1,16 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/providers/settings_providers.dart';
 import 'core/theme/monetra_colors.dart';
+import 'core/theme/monetra_design_system.dart';
 import 'core/theme/monetra_theme.dart';
 import 'core/utils/app_router.dart';
 import 'core/utils/monetra_logger.dart';
+import 'features/search/presentation/widgets/command_palette_overlay.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,8 +41,21 @@ class MonetraApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: theme,
       routerConfig: AppRouter.router,
+      themeAnimationDuration: MonetraDesignSystem.durationSlow,
+      scrollBehavior: const MonetraScrollBehavior(),
     );
   }
+}
+
+class MonetraScrollBehavior extends MaterialScrollBehavior {
+  const MonetraScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+      };
 }
 
 class MonetraWorkspaceShell extends StatelessWidget {
@@ -182,8 +199,8 @@ class MonetraWorkspaceShell extends StatelessWidget {
               final item = navItems[index];
               final isSelected = selectedIndex == index;
 
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
+              Widget itemWidget = Padding(
+                padding: const EdgeInsets.only(bottom: 2.0),
                 child: InkWell(
                   onTap: () {
                     if (isDrawer) {
@@ -191,37 +208,61 @@ class MonetraWorkspaceShell extends StatelessWidget {
                     }
                     _onItemTapped(index, context);
                   },
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
+                  borderRadius: BorderRadius.circular(8),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 10),
+                        horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? theme.colorScheme.primary.withValues(alpha: 0.12)
+                          ? theme.colorScheme.primary.withValues(alpha: 0.08)
                           : Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       children: [
+                        // Subtle active left indicator bar
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          curve: Curves.easeOutCubic,
+                          width: 3,
+                          height: isSelected ? 16 : 0,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(1.5),
+                          ),
+                        ),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: isSelected ? 8 : 0,
+                        ),
                         Icon(
                           item['icon'] as IconData,
                           size: 18,
                           color: isSelected
                               ? theme.colorScheme.primary
                               : theme.textTheme.bodyMedium?.color
-                                  ?.withValues(alpha: 0.7),
+                                  ?.withValues(alpha: 0.65),
                         ),
-                        const SizedBox(width: 12),
-                        Text(
-                          item['label'] as String,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                            color: isSelected
-                                ? theme.colorScheme.primary
-                                : theme.textTheme.bodyMedium?.color,
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.easeInOut,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                              color: isSelected
+                                  ? theme.colorScheme.primary
+                                  : theme.textTheme.bodyMedium?.color,
+                            ),
+                            child: Text(
+                              item['label'] as String,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ],
@@ -229,6 +270,49 @@ class MonetraWorkspaceShell extends StatelessWidget {
                   ),
                 ),
               );
+
+              if (index == 0) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 8, bottom: 6),
+                      child: Text(
+                        'WORKSPACE',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                    itemWidget,
+                  ],
+                );
+              }
+
+              if (index == 8) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 8, bottom: 6),
+                      child: Text(
+                        'TOOLS & UTILITIES',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.4),
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                    itemWidget,
+                  ],
+                );
+              }
+
+              return itemWidget;
             },
           ),
         ),
@@ -266,6 +350,30 @@ class MonetraWorkspaceShell extends StatelessWidget {
     );
   }
 
+  void _openCommandPalette(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'Command Palette',
+      barrierColor: Colors.black.withValues(alpha: 0.4),
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, anim1, anim2) => const CommandPaletteOverlay(),
+      transitionBuilder: (context, anim1, anim2, child) {
+        final curve = CurveTween(curve: Curves.easeOutCubic);
+        return FadeTransition(
+          opacity: curve.animate(anim1),
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, -0.05),
+              end: Offset.zero,
+            ).animate(curve.animate(anim1)),
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -291,10 +399,12 @@ class MonetraWorkspaceShell extends StatelessWidget {
       {'icon': Icons.extension_rounded, 'label': 'Plugin Studio'},
     ];
 
+    Widget mainWidget;
+
     if (isMobile) {
       final currentTitle = navItems[selectedIndex]['label'] as String;
 
-      return Scaffold(
+      mainWidget = Scaffold(
         appBar: AppBar(
           title: Text(
             currentTitle,
@@ -318,39 +428,51 @@ class MonetraWorkspaceShell extends StatelessWidget {
           child: child,
         ),
       );
-    }
-
-    return Scaffold(
-      body: Row(
-        children: [
-          // Sidebar Navigation Rail (Desktop / Widescreen)
-          Container(
-            width: 220,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              border: Border(
-                right: BorderSide(
-                  color: theme.dividerColor.withValues(alpha: 0.4),
-                  width: 1.0,
+    } else {
+      mainWidget = Scaffold(
+        body: Row(
+          children: [
+            // Sidebar Navigation Rail (Desktop / Widescreen)
+            Container(
+              width: 220,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                border: Border(
+                  right: BorderSide(
+                    color: theme.dividerColor.withValues(alpha: 0.4),
+                    width: 1.0,
+                  ),
                 ),
               ),
+              child: _buildNavColumn(
+                context,
+                theme,
+                selectedIndex,
+                navItems,
+                isDrawer: false,
+              ),
             ),
-            child: _buildNavColumn(
-              context,
-              theme,
-              selectedIndex,
-              navItems,
-              isDrawer: false,
+            // Main Workspace Page Area
+            Expanded(
+              child: Container(
+                color: theme.scaffoldBackgroundColor,
+                child: child,
+              ),
             ),
-          ),
-          // Main Workspace Page Area
-          Expanded(
-            child: Container(
-              color: theme.scaffoldBackgroundColor,
-              child: child,
-            ),
-          ),
-        ],
+          ],
+        ),
+      );
+    }
+
+    return CallbackShortcuts(
+      bindings: {
+        SingleActivator(LogicalKeyboardKey.keyK, control: !isMobile, meta: !isMobile): () {
+          _openCommandPalette(context);
+        },
+      },
+      child: Focus(
+        autofocus: true,
+        child: mainWidget,
       ),
     );
   }

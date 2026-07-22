@@ -6,8 +6,10 @@ import '../../../../core/providers/budget_providers.dart';
 import '../../../../core/providers/category_providers.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/monetra_card.dart';
+import '../../../../core/widgets/monetra_empty_state.dart';
 import '../widgets/budget_editor_dialog.dart';
 
 class BudgetsPage extends ConsumerWidget {
@@ -227,17 +229,18 @@ class BudgetsPage extends ConsumerWidget {
             ),
           const SizedBox(height: 24),
           Expanded(
-            child: budgetProgressList.isEmpty
-                ? Center(
-                    child: Text(
-                      'No active budget limits configured.',
-                      style: TextStyle(
-                          color: theme.textTheme.bodyMedium?.color
-                              ?.withValues(alpha: 0.6)),
-                    ),
-                  )
-                : ListView.separated(
-                    itemCount: budgetProgressList.length,
+            child: AnimatedSwitcher(
+              duration: MonetraDesignSystem.durationNormal,
+              child: budgetProgressList.isEmpty
+                  ? MonetraEmptyState(
+                      icon: Icons.pie_chart_outline_rounded,
+                      title: 'No budgets configured',
+                      description: 'Set spending limits for different categories to keep your expenses in check.',
+                      actionLabel: 'Create Budget',
+                      onActionPressed: () => BudgetEditorDialog.show(context),
+                    )
+                  : ListView.separated(
+                      itemCount: budgetProgressList.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 16),
                     itemBuilder: (context, index) {
                       final item = budgetProgressList[index];
@@ -376,6 +379,7 @@ class BudgetsPage extends ConsumerWidget {
                       );
                     },
                   ),
+            ),
           ),
         ],
       ),

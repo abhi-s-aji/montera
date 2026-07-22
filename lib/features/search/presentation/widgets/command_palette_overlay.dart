@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:monetra/core/theme/monetra_design_system.dart';
+import 'package:monetra/core/widgets/monetra_empty_state.dart';
 import 'package:monetra/features/search/presentation/providers/search_providers.dart';
 
 class CommandPaletteOverlay extends ConsumerStatefulWidget {
@@ -33,11 +35,11 @@ class _CommandPaletteOverlayState extends ConsumerState<CommandPaletteOverlay> {
     return Dialog(
       alignment: Alignment.topCenter,
       insetPadding: const EdgeInsets.only(top: 80, left: 16, right: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(MonetraDesignSystem.radiusL)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 600, maxHeight: 450),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
           child: Column(
             children: [
               TextField(
@@ -66,8 +68,11 @@ class _CommandPaletteOverlayState extends ConsumerState<CommandPaletteOverlay> {
               const SizedBox(height: 8),
               Expanded(
                 child: displayItems.isEmpty
-                    ? const Center(
-                        child: Text('No matching results or commands found.'))
+                    ? const MonetraEmptyState(
+                        icon: Icons.search_off_rounded,
+                        title: 'No results',
+                        description: 'No matching commands or records found.',
+                      )
                     : ListView.builder(
                         itemCount: _searchController.text.trim().isEmpty
                             ? commands.length

@@ -8,6 +8,7 @@ import '../../../../core/providers/category_providers.dart';
 import '../../../../core/providers/settings_providers.dart';
 import '../../../../core/providers/transaction_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/widgets/monetra_card.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -190,7 +191,7 @@ class SettingsPage extends ConsumerWidget {
           const SizedBox(height: 20),
           // Privacy Card
           MonetraCard(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
             child: Row(
               children: [
                 Container(
@@ -207,10 +208,9 @@ class SettingsPage extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         '100% Offline & Private',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -230,13 +230,12 @@ class SettingsPage extends ConsumerWidget {
           const SizedBox(height: 20),
           // Theme & Appearance Card
           MonetraCard(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Theme & Appearance',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('Theme & Appearance',
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 16),
                 if (isMobile)
                   Column(
@@ -346,13 +345,12 @@ class SettingsPage extends ConsumerWidget {
           const SizedBox(height: 20),
           // Developer & Diagnostics Section
           MonetraCard(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Developer & Advanced Mode',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('Developer & Advanced Mode',
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
@@ -379,13 +377,12 @@ class SettingsPage extends ConsumerWidget {
           const SizedBox(height: 20),
           // Data Portability Section
           MonetraCard(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(MonetraDesignSystem.spaceXL),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Data Portability & Ownership',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('Data Portability & Ownership',
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 Text(
                     'Export your complete financial records into open formats (JSON / CSV). No lock-in.',

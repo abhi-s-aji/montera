@@ -5,8 +5,10 @@ import '../../../../core/domain/entities/goal.dart';
 import '../../../../core/providers/goal_providers.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/monetra_card.dart';
+import '../../../../core/widgets/monetra_empty_state.dart';
 import '../widgets/goal_contribution_dialog.dart';
 import '../widgets/goal_editor_dialog.dart';
 
@@ -241,17 +243,18 @@ class GoalsPage extends ConsumerWidget {
             ),
           const SizedBox(height: 24),
           Expanded(
-            child: goalProgressList.isEmpty
-                ? Center(
-                    child: Text(
-                      'No financial goals created yet.',
-                      style: TextStyle(
-                          color: theme.textTheme.bodyMedium?.color
-                              ?.withValues(alpha: 0.6)),
-                    ),
-                  )
-                : ListView.separated(
-                    itemCount: goalProgressList.length,
+            child: AnimatedSwitcher(
+              duration: MonetraDesignSystem.durationNormal,
+              child: goalProgressList.isEmpty
+                  ? MonetraEmptyState(
+                      icon: Icons.flag_outlined,
+                      title: 'No savings goals set',
+                      description: 'Plan for major purchases, emergencies, or milestones by setting up your first goal.',
+                      actionLabel: 'Create Goal',
+                      onActionPressed: () => GoalEditorDialog.show(context),
+                    )
+                  : ListView.separated(
+                      itemCount: goalProgressList.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 16),
                     itemBuilder: (context, index) {
                       final item = goalProgressList[index];
@@ -397,6 +400,7 @@ class GoalsPage extends ConsumerWidget {
                       );
                     },
                   ),
+            ),
           ),
         ],
       ),

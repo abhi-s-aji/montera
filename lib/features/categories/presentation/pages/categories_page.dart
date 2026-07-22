@@ -5,8 +5,10 @@ import '../../../../core/domain/entities/category.dart';
 import '../../../../core/providers/category_providers.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/utils/icon_helper.dart';
 import '../../../../core/widgets/monetra_card.dart';
+import '../../../../core/widgets/monetra_empty_state.dart';
 import '../widgets/category_editor_dialog.dart';
 
 class CategoriesPage extends ConsumerWidget {
@@ -231,17 +233,16 @@ class CategoriesPage extends ConsumerWidget {
             ),
           const SizedBox(height: 24),
           Expanded(
-            child: categoryTree.isEmpty
-                ? Center(
-                    child: Text(
-                      'No matching categories found.',
-                      style: TextStyle(
-                          color: theme.textTheme.bodyMedium?.color
-                              ?.withValues(alpha: 0.6)),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: categoryTree.length,
+            child: AnimatedSwitcher(
+              duration: MonetraDesignSystem.durationNormal,
+              child: categoryTree.isEmpty
+                  ? const MonetraEmptyState(
+                      icon: Icons.category_outlined,
+                      title: 'No Categories Found',
+                      description: 'No matching categories were found. You can add a new one by clicking the Add Category button.',
+                    )
+                  : ListView.builder(
+                      itemCount: categoryTree.length,
                     itemBuilder: (context, index) {
                       final parent = categoryTree.keys.elementAt(index);
                       final children = categoryTree[parent] ?? [];
@@ -328,6 +329,7 @@ class CategoriesPage extends ConsumerWidget {
                       );
                     },
                   ),
+            ),
           ),
         ],
       ),

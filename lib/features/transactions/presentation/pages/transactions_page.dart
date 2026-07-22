@@ -5,8 +5,10 @@ import '../../../../core/providers/category_providers.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/providers/transaction_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/monetra_card.dart';
+import '../../../../core/widgets/monetra_empty_state.dart';
 import '../widgets/transaction_editor_dialog.dart';
 
 class TransactionsPage extends ConsumerStatefulWidget {
@@ -253,17 +255,18 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
           Expanded(
             child: MonetraCard(
               padding: const EdgeInsets.all(12),
-              child: transactions.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No matching transactions found.',
-                        style: TextStyle(
-                            color: theme.textTheme.bodyMedium?.color
-                                ?.withValues(alpha: 0.6)),
-                      ),
-                    )
-                  : ListView.separated(
-                      itemCount: transactions.length,
+              child: AnimatedSwitcher(
+                duration: MonetraDesignSystem.durationNormal,
+                child: transactions.isEmpty
+                    ? MonetraEmptyState(
+                        icon: Icons.receipt_long_rounded,
+                        title: 'No transactions found',
+                        description: 'Start tracking your expenses and incomes by logging your first transaction.',
+                        actionLabel: 'Add Entry',
+                        onActionPressed: () => TransactionEditorDialog.show(context),
+                      )
+                    : ListView.separated(
+                        itemCount: transactions.length,
                       separatorBuilder: (_, __) => Divider(
                           height: 1,
                           color: theme.dividerColor.withValues(alpha: 0.3)),
@@ -382,6 +385,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
                         );
                       },
                     ),
+              ),
             ),
           ),
         ],

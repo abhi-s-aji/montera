@@ -5,9 +5,11 @@ import '../../../../core/domain/entities/account.dart';
 import '../../../../core/providers/account_providers.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/monetra_colors.dart';
+import '../../../../core/theme/monetra_design_system.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/utils/icon_helper.dart';
 import '../../../../core/widgets/monetra_card.dart';
+import '../../../../core/widgets/monetra_empty_state.dart';
 import '../widgets/account_editor_dialog.dart';
 
 class AccountsPage extends ConsumerWidget {
@@ -239,16 +241,15 @@ class AccountsPage extends ConsumerWidget {
             ),
           const SizedBox(height: 24),
           Expanded(
-            child: accounts.isEmpty
-                ? Center(
-                    child: Text(
-                      'No matching accounts found.',
-                      style: TextStyle(
-                          color: theme.textTheme.bodyMedium?.color
-                              ?.withValues(alpha: 0.6)),
-                    ),
-                  )
-                : GridView.builder(
+            child: AnimatedSwitcher(
+              duration: MonetraDesignSystem.durationNormal,
+              child: accounts.isEmpty
+                  ? const MonetraEmptyState(
+                      icon: Icons.account_balance_wallet_outlined,
+                      title: 'No Accounts Found',
+                      description: 'No matching accounts were found. You can add a new one by clicking the Add Account button.',
+                    )
+                  : GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: isMobile ? 1 : 2,
                       childAspectRatio: isMobile ? 2.5 : 2.2,
@@ -365,6 +366,7 @@ class AccountsPage extends ConsumerWidget {
                       );
                     },
                   ),
+            ),
           ),
         ],
       ),
