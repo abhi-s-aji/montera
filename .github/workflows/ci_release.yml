@@ -11,13 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.x'
-          channel: 'stable'
+          channel: stable
+          flutter-version: "3.44.7"
+
+      - name: Show Flutter Version
+        run: |
+          flutter --version
+          dart --version
 
       - name: Install Dependencies
         run: flutter pub get
@@ -26,7 +31,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Run Static Code Analysis
-        run: flutter analyze lib/
+        run: flutter analyze
 
       - name: Run Full Automated Test Suite
         run: flutter test
